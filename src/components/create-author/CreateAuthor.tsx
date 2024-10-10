@@ -2,43 +2,27 @@ import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes"
 import { FormEvent, useEffect, useState } from "react"
 
 interface Author {
-  id: string
+  id: number
   name: string | undefined
   email: string | undefined
 }
 
+let nextId = 0
+
 export function CreateAuthor() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [authors, setAuthors] = useState<Author[]>([])
-  const [author, setAuthor] = useState<Author>()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
 
   useEffect(() => {
-    if (author !== undefined) {
-      updateAuthors()
-    }
-  }, [author])
-
-  function updateAuthors() {
-    const newAuthors = [...authors, author]
-
-    localStorage.setItem("authors", JSON.stringify(newAuthors))
-
-    if (!author) {
-      return
-    }
-
-    setAuthors([...authors, author])
-    setName("")
-    setEmail("")
-    setIsModalOpen(false)
-  }
+    localStorage.setItem("authors", JSON.stringify(authors))
+  }, [authors])
 
   function createAuthor(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    setAuthor({ id: authors.length.toString(), name, email })
+    setAuthors([...authors, { id: nextId++, name, email }])
   }
 
   return (
