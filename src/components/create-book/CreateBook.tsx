@@ -28,7 +28,6 @@ export function CreateBook({
 }: CreateBookProps) {
   useEffect(() => {
     localStorage.setItem("books", JSON.stringify(books))
-    console.log(books)
   }, [books])
 
   return (

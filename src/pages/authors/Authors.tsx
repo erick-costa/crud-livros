@@ -2,19 +2,36 @@ import { AlertDialog, Button, Dialog, Flex, Table } from "@radix-ui/themes"
 import { Divisor } from "../../components/divisor/Divisor"
 import { Author } from "../../interfaces/Author"
 import { useEffect } from "react"
+import { Book } from "../../interfaces/Book"
 
 interface AuthorsProps {
   authors: Array<Author>
   setAuthors: (value: Array<Author>) => void
+  books: Array<Book>
+  setBooks: (value: Array<Book>) => void
 }
 
-export function Authors({ authors, setAuthors }: AuthorsProps) {
+export function Authors({
+  authors,
+  setAuthors,
+  books,
+  setBooks,
+}: AuthorsProps) {
   useEffect(() => {
     localStorage.setItem("authors", JSON.stringify(authors))
   }, [authors])
 
+  useEffect(() => {
+    localStorage.setItem("books", JSON.stringify(books))
+  }, [books])
+
   function deleteAuthor(id: number) {
+    const stringId = id.toString()
     const newAuthors = authors.filter((author) => author.id !== id)
+
+    const newBooks = books.filter((book) => book.author_id !== stringId)
+
+    setBooks(newBooks)
 
     setAuthors(newAuthors)
   }
@@ -66,7 +83,8 @@ export function Authors({ authors, setAuthors }: AuthorsProps) {
                           </AlertDialog.Title>
                           <AlertDialog.Description size="2" mb="4">
                             Você tem certeza? Este autor não vai mais estar
-                            disponível após a exclusão.
+                            disponível após a exclusão e todos os livros deste
+                            autor serão excluídos.
                           </AlertDialog.Description>
 
                           <Divisor />

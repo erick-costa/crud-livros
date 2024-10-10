@@ -48,7 +48,14 @@ export function App() {
     },
     {
       path: "/authors",
-      element: <Authors authors={authors} setAuthors={setAuthors} />,
+      element: (
+        <Authors
+          authors={authors}
+          setAuthors={setAuthors}
+          books={books}
+          setBooks={setBooks}
+        />
+      ),
     },
     {
       path: "/books",
@@ -74,7 +81,6 @@ export function App() {
     const name = data.get("name")?.toString()
     const pages = data.get("pages")?.toString()
     const author_id = data.get("author_id")?.toString()
-    console.log(author_id)
 
     if (!name || !pages || !author_id) {
       return
