@@ -6,6 +6,7 @@ import { Authors } from "./pages/authors/Authors"
 import { FormEvent, useState } from "react"
 import { Author } from "./interfaces/Author"
 import { Book } from "./interfaces/Book"
+import { Books } from "./pages/books/Books"
 
 let nextIdAuthors = 0
 let nextIdBooks = 0
@@ -48,6 +49,10 @@ export function App() {
     {
       path: "/authors",
       element: <Authors authors={authors} setAuthors={setAuthors} />,
+    },
+    {
+      path: "/books",
+      element: <Books books={books} setBooks={setBooks} authors={authors} />,
     },
   ])
 

@@ -65,7 +65,9 @@ export function Home({
           setPages={setPages}
           authors={authors}
         />
-        <Button>Ver livros</Button>
+        <Link to="/books">
+          <Button>Ver livros</Button>
+        </Link>
       </Flex>
 
       <h2>Autores</h2>

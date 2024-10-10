@@ -1,53 +1,89 @@
-import { AlertDialog, Button, Dialog, Flex, Table } from "@radix-ui/themes"
+import {
+  AlertDialog,
+  Button,
+  Dialog,
+  Flex,
+  Table,
+  Text,
+} from "@radix-ui/themes"
 import { Divisor } from "../../components/divisor/Divisor"
+import { Book } from "../../interfaces/Book"
+import { useEffect, useState } from "react"
 import { Author } from "../../interfaces/Author"
-import { useEffect } from "react"
 
-interface AuthorsProps {
+interface BooksProps {
+  books: Array<Book>
+  setBooks: (value: Array<Book>) => void
   authors: Array<Author>
-  setAuthors: (value: Array<Author>) => void
 }
 
-export function Authors({ authors, setAuthors }: AuthorsProps) {
+export function Books({ books, setBooks, authors }: BooksProps) {
+  const [authorName, setAuthorName] = useState("")
+
   useEffect(() => {
-    localStorage.setItem("authors", JSON.stringify(authors))
-  }, [authors])
+    localStorage.setItem("books", JSON.stringify(books))
+  }, [books])
 
-  function deleteAuthor(id: number) {
-    const newAuthors = authors.filter((author) => author.id !== id)
+  function deleteBook(id: number) {
+    const newBooks = books.filter((book) => book.id !== id)
 
-    setAuthors(newAuthors)
+    setBooks(newBooks)
+  }
+
+  function getAuthorName(id: string) {
+    const numberId = parseInt(id)
+
+    authors.map((author) => {
+      if (author.id === numberId) {
+        if (!author.name) {
+          return
+        }
+
+        setAuthorName(author.name)
+      }
+    })
   }
 
   return (
     <>
-      <h2>Todos os autores</h2>
+      <h2>Todos os livros</h2>
       <Divisor />
       <Table.Root mt="6">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Nome</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Páginas</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {authors.map((author) => (
-            <Table.Row key={author.id}>
-              <Table.RowHeaderCell>{author.name}</Table.RowHeaderCell>
-              <Table.Cell>{author.email}</Table.Cell>
+          {books.map((book) => (
+            <Table.Row key={book.id}>
+              <Table.RowHeaderCell>{book.name}</Table.RowHeaderCell>
+              <Table.Cell>{book.pages}</Table.Cell>
               <Table.Cell>
                 <Dialog.Root>
                   <Dialog.Trigger>
-                    <Button size="1">Mais informações</Button>
+                    <Button
+                      onClick={() => getAuthorName(book.author_id!)}
+                      size="1"
+                    >
+                      Mais informações
+                    </Button>
                   </Dialog.Trigger>
 
                   <Dialog.Content maxWidth="450px">
-                    <Dialog.Title>{author.name}</Dialog.Title>
+                    <Dialog.Title>{book.name}</Dialog.Title>
                     <Dialog.Description size="2" mb="4">
-                      E-mail: {author.email}
+                      <Text weight="bold">Páginas: </Text> {book.pages}
                     </Dialog.Description>
+
+                    <Dialog.Description size="2" mb="4">
+                      <Text weight="bold">Autor: </Text> {authorName}
+                    </Dialog.Description>
+
+                    <Divisor />
 
                     <Flex gap="3" mt="4" justify="end">
                       <Dialog.Close>
@@ -62,10 +98,10 @@ export function Authors({ authors, setAuthors }: AuthorsProps) {
                         </AlertDialog.Trigger>
                         <AlertDialog.Content maxWidth="450px">
                           <AlertDialog.Title>
-                            Excluir autor - {author.name}
+                            Excluir livro - {book.name}
                           </AlertDialog.Title>
                           <AlertDialog.Description size="2" mb="4">
-                            Você tem certeza? Este autor não vai mais estar
+                            Você tem certeza? Este livro não vai mais estar
                             disponível após a exclusão.
                           </AlertDialog.Description>
 
@@ -81,7 +117,7 @@ export function Authors({ authors, setAuthors }: AuthorsProps) {
                               <Button
                                 variant="solid"
                                 color="red"
-                                onClick={() => deleteAuthor(author.id)}
+                                onClick={() => deleteBook(book.id)}
                               >
                                 Excluir
                               </Button>
