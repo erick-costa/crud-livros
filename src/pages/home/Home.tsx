@@ -38,8 +38,6 @@ export function Home({
       <Flex gap="4" mt="6" mb="9">
         <CreateBook />
         <Button>Ver livros</Button>
-        <Button>Pesquisar livro</Button>
-        <Button>Excluir livro</Button>
       </Flex>
 
       <h2>Autores</h2>
@@ -58,8 +56,6 @@ export function Home({
         <Link to="/authors">
           <Button>Ver autores</Button>
         </Link>
-        <Button>Pesquisar autor</Button>
-        <Button>Excluir autor</Button>
       </Flex>
     </>
   )
