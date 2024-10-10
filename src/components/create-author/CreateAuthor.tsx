@@ -1,29 +1,31 @@
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes"
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect } from "react"
+import { Author } from "../../interfaces/Author"
 
-interface Author {
-  id: number
-  name: string | undefined
-  email: string | undefined
+interface CreateAuthorProps {
+  isModalOpen: boolean
+  setIsModalOpen: (value: boolean) => void
+  authors: Array<Author>
+  name: string
+  setName: (value: string) => void
+  email: string
+  setEmail: (value: string) => void
+  createAuthor: (event: FormEvent<HTMLFormElement>) => void
 }
 
-let nextId = 0
-
-export function CreateAuthor() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [authors, setAuthors] = useState<Author[]>([])
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-
+export function CreateAuthor({
+  isModalOpen,
+  setIsModalOpen,
+  authors,
+  name,
+  setName,
+  email,
+  setEmail,
+  createAuthor,
+}: CreateAuthorProps) {
   useEffect(() => {
     localStorage.setItem("authors", JSON.stringify(authors))
   }, [authors])
-
-  function createAuthor(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    setAuthors([...authors, { id: nextId++, name, email }])
-  }
 
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
