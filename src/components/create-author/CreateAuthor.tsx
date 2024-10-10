@@ -3,8 +3,8 @@ import { FormEvent, useEffect } from "react"
 import { Author } from "../../interfaces/Author"
 
 interface CreateAuthorProps {
-  isModalOpen: boolean
-  setIsModalOpen: (value: boolean) => void
+  isAuthorModalOpen: boolean
+  setIsAuthorModalOpen: (value: boolean) => void
   authors: Array<Author>
   name: string
   setName: (value: string) => void
@@ -14,8 +14,8 @@ interface CreateAuthorProps {
 }
 
 export function CreateAuthor({
-  isModalOpen,
-  setIsModalOpen,
+  isAuthorModalOpen,
+  setIsAuthorModalOpen,
   authors,
   name,
   setName,
@@ -28,7 +28,7 @@ export function CreateAuthor({
   }, [authors])
 
   return (
-    <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <Dialog.Root open={isAuthorModalOpen} onOpenChange={setIsAuthorModalOpen}>
       <Dialog.Trigger>
         <Button>Criar um autor</Button>
       </Dialog.Trigger>
@@ -58,6 +58,7 @@ export function CreateAuthor({
               </Text>
               <TextField.Root
                 name="email"
+                type="email"
                 placeholder="Digite o e-mail do autor"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}

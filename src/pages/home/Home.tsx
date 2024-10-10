@@ -5,27 +5,45 @@ import { CreateAuthor } from "../../components/create-author/CreateAuthor"
 import { Link } from "react-router-dom"
 import { FormEvent } from "react"
 import { Author } from "../../interfaces/Author"
+import { Book } from "../../interfaces/Book"
 
 interface HomeProps {
-  isModalOpen: boolean
-  setIsModalOpen: (value: boolean) => void
+  isAuthorModalOpen: boolean
+  setIsAuthorModalOpen: (value: boolean) => void
+  isBookModalOpen: boolean
+  setIsBookModalOpen: (value: boolean) => void
   authors: Array<Author>
   name: string
   setName: (value: string) => void
   email: string
   setEmail: (value: string) => void
   createAuthor: (event: FormEvent<HTMLFormElement>) => void
+
+  createBook: (event: FormEvent<HTMLFormElement>) => void
+  books: Array<Book>
+  bookName: string
+  setBookName: (value: string) => void
+  pages: number
+  setPages: (value: number) => void
 }
 
 export function Home({
-  isModalOpen,
-  setIsModalOpen,
+  isAuthorModalOpen,
+  setIsAuthorModalOpen,
+  isBookModalOpen,
+  setIsBookModalOpen,
   authors,
   name,
   setName,
   email,
   setEmail,
   createAuthor,
+  createBook,
+  books,
+  bookName,
+  setBookName,
+  pages,
+  setPages,
 }: HomeProps) {
   return (
     <>
@@ -36,7 +54,17 @@ export function Home({
       <h2>Livros</h2>
       <Divisor />
       <Flex gap="4" mt="6" mb="9">
-        <CreateBook />
+        <CreateBook
+          isBookModalOpen={isBookModalOpen}
+          setIsBookModalOpen={setIsBookModalOpen}
+          createBook={createBook}
+          books={books}
+          bookName={bookName}
+          setBookName={setBookName}
+          pages={pages}
+          setPages={setPages}
+          authors={authors}
+        />
         <Button>Ver livros</Button>
       </Flex>
 
@@ -44,8 +72,8 @@ export function Home({
       <Divisor />
       <Flex gap="4" mt="6">
         <CreateAuthor
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          isAuthorModalOpen={isAuthorModalOpen}
+          setIsAuthorModalOpen={setIsAuthorModalOpen}
           authors={authors}
           name={name}
           setName={setName}
